@@ -1,9 +1,10 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const robot = require('robotjs');
+const robot = require('robotjs')
 const path = require('path');
 
+ 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -19,16 +20,18 @@ io.on('connection', (socket) => {
   });
 
 
-  // socket.on('click', () => {
-  //   robot.mouseClick();
-  // });
-
+  socket.on('click', () => {
+    robot.mouseClick();
+  });
+ 
   socket.on('leftClick', () => {
     robot.mouseClick('left');
+    
   });
   
   socket.on('rightClick', () => {
     robot.mouseClick('right');
+   
   });
 
   socket.on('type', (text) => {
