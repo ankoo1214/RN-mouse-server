@@ -1,0 +1,25 @@
+# Use an official Node.js runtime as a parent image
+FROM node:18
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# If you're using a different Node.js version, or if robotjs needs certain system libraries:
+RUN apt-get update && apt-get install -y libxtst-dev libpng++-dev
+
+# Bundle app source
+COPY . .
+
+# Rebuild native modules if necessary
+RUN npm rebuild
+
+# Expose the port the app runs on
+EXPOSE 3000
+ 
+# Define the command to run your app
+CMD [ "npm", "start" ]
+ 

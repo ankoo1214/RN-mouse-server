@@ -7,7 +7,7 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-
+ 
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
@@ -18,7 +18,7 @@ io.on('connection', (socket) => {
     socket.join(roomId);
     console.log(`Device joined room ${roomId}`);
   });
-
+ 
   socket.on('moveMouse', (data) => {
     const { roomId, x, y } = data;
     console.log('data', data)
