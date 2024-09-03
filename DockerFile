@@ -1,24 +1,24 @@
-FROM node:20
-
-# Install build dependencies
-RUN apt-get update && \
-    apt-get install -y libxtst-dev
+# Use an official Node.js runtime as a parent image
+FROM node:18
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Install dependencies
 COPY package*.json ./
-
-# Install npm dependencies
 RUN npm install
 
-# Copy the rest of your application code
+# If you're using a different Node.js version, or if robotjs needs certain system libraries:
+RUN apt-get update && apt-get install -y libxtst-dev libpng++-dev
+
+# Bundle app source
 COPY . .
 
-# Expose port (adjust as needed)
+# Rebuild native modules if necessary
+RUN npm rebuild
+
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Start your application
-CMD ["npm", "start"]
-  
+# Define the command to run your app
+CMD [ "npm", "start" ]
